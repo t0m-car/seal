@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
@@ -41,11 +42,12 @@ const THEME_SCRIPT = `
   } catch (_) {}
 `;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
     <html
       lang="en"
@@ -53,7 +55,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <Script id="seal-theme" strategy="beforeInteractive">
+        <Script id="seal-theme" strategy="beforeInteractive" nonce={nonce}>
           {THEME_SCRIPT}
         </Script>
       </head>
