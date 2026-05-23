@@ -56,7 +56,7 @@ Open http://localhost:3000.
 
 ## Deploy
 
-Any Node 20+ host with a Postgres database. The repo includes `vercel.json`
+Any Node 22+ host with a Postgres database. The repo includes `vercel.json`
 with a daily cron that purges expired records.
 
 Environment variables:
