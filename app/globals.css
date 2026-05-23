@@ -1,0 +1,247 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--fg);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-fg);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--fg);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--fg-muted);
+  --color-accent: var(--surface-2);
+  --color-accent-foreground: var(--fg);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--accent);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-dim: var(--fg-dim);
+  --color-bg-elev: var(--bg-elev);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border-strong: var(--border-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-line: var(--accent-line);
+  --color-accent-fg: var(--accent-fg);
+  --color-ok: var(--ok);
+  --color-sidebar: var(--surface);
+  --color-sidebar-foreground: var(--fg);
+  --color-sidebar-primary: var(--accent);
+  --color-sidebar-primary-foreground: var(--accent-fg);
+  --color-sidebar-accent: var(--surface-2);
+  --color-sidebar-accent-foreground: var(--fg);
+  --color-sidebar-border: var(--border);
+  --color-sidebar-ring: var(--accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+/*
+  Light mode is the default; the .dark class on <html> swaps the tokens.
+  Accent rationale: hue shifts -15deg (75deg amber to 60deg oxblood-ish) for
+  legibility on white. Pure amber at oklch(0.785 0.140 75) reads washed out on
+  a light background, and dropping lightness at the same hue trends muddy
+  brown. The hue shift keeps the wax-seal reading intact in both modes.
+*/
+:root {
+  --radius: 10px;
+  --bg: oklch(0.985 0.004 85);
+  --bg-elev: oklch(1 0 0);
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.965 0.005 85);
+  --border: oklch(0.890 0.006 85);
+  --border-strong: oklch(0.760 0.008 85);
+  --fg: oklch(0.185 0.006 85);
+  --fg-muted: oklch(0.455 0.008 85);
+  --fg-dim: oklch(0.625 0.008 85);
+  --accent: oklch(0.605 0.150 60);
+  --accent-soft: oklch(0.605 0.150 60 / 0.10);
+  --accent-line: oklch(0.605 0.150 60 / 0.36);
+  --accent-fg: oklch(0.985 0.005 60);
+  --destructive: oklch(0.555 0.200 25);
+  --destructive-soft: oklch(0.555 0.200 25 / 0.10);
+  --destructive-line: oklch(0.555 0.200 25 / 0.38);
+  --ok: oklch(0.520 0.130 155);
+  --grid-line: oklch(0.85 0.006 85 / 0.70);
+  --shadow-card: 0 1px 0 oklch(1 0 0 / 0.6) inset,
+                 0 10px 30px -15px oklch(0 0 0 / 0.10);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: oklch(0.158 0.005 90);
+  --bg-elev: oklch(0.195 0.006 90);
+  --surface: oklch(0.205 0.006 90);
+  --surface-2: oklch(0.245 0.007 90);
+  --border: oklch(0.305 0.008 90);
+  --border-strong: oklch(0.420 0.010 90);
+  --fg: oklch(0.965 0.004 90);
+  --fg-muted: oklch(0.665 0.008 90);
+  --fg-dim: oklch(0.480 0.008 90);
+  --accent: oklch(0.785 0.140 75);
+  --accent-soft: oklch(0.785 0.140 75 / 0.14);
+  --accent-line: oklch(0.785 0.140 75 / 0.38);
+  --accent-fg: oklch(0.16 0.04 75);
+  --destructive: oklch(0.680 0.190 25);
+  --destructive-soft: oklch(0.680 0.190 25 / 0.12);
+  --destructive-line: oklch(0.680 0.190 25 / 0.40);
+  --ok: oklch(0.760 0.140 155);
+  --grid-line: oklch(0.30 0.008 90 / 0.55);
+  --shadow-card: 0 1px 0 oklch(1 0 0 / 0.04) inset,
+                 0 20px 50px -20px oklch(0 0 0 / 0.65);
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    font-family: var(--font-sans);
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--fg);
+  }
+  h1, h2, h3, h4 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  h1 {
+    font-size: clamp(30px, 3.4vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+}
+
+@layer components {
+  /*
+    Patterns that genuinely need CSS: pseudo-elements (PLAINTEXT notch,
+    decrypt-stream fade overlay, sec-list bullets), keyframes, and a
+    background gradient pattern.
+  */
+
+  .app-shell {
+    min-height: 100%;
+    background:
+      linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 100% 64px,
+      var(--bg);
+    background-attachment: local;
+  }
+
+  .decrypt-stream {
+    position: relative;
+    overflow: hidden;
+    padding: 16px;
+    min-height: 168px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .decrypt-stream::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 70%, var(--bg-elev) 100%);
+    pointer-events: none;
+  }
+  .decrypt-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1.1em;
+    vertical-align: -2px;
+    background: var(--accent);
+    animation: seal-blink 900ms steps(2) infinite;
+  }
+  @keyframes seal-blink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+
+  .plaintext-block {
+    position: relative;
+    padding: 18px;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+    animation: seal-reveal-in 500ms cubic-bezier(.2, .7, .3, 1) both;
+  }
+  @keyframes seal-reveal-in {
+    from { opacity: 0; transform: translateY(4px); border-color: var(--accent); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .plaintext-block::before {
+    content: "PLAINTEXT";
+    position: absolute;
+    top: -8px;
+    left: 14px;
+    padding: 0 8px;
+    background: var(--bg);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .sec-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .sec-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: var(--fg-muted);
+    font-size: 14.5px;
+    line-height: 1.65;
+  }
+  .sec-list li::before {
+    content: "";
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    margin-top: 9px;
+    border-radius: 1px;
+    background: var(--border-strong);
+  }
+  .sec-list[data-tone="ok"] li::before { background: var(--ok); }
+  .sec-list[data-tone="warn"] li::before { background: var(--accent); }
+  .sec-list[data-tone="bad"] li::before { background: var(--destructive); }
+}
