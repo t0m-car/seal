@@ -195,7 +195,7 @@ function CreateForm({
                 value={String(field.value)}
                 onValueChange={(v) => field.onChange(Number(v))}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" aria-label="Expires after">
                   <SelectValue>
                     {(v) =>
                       EXPIRY_OPTS.find((o) => String(o.value) === v)?.label ??
@@ -226,7 +226,7 @@ function CreateForm({
                 value={String(field.value)}
                 onValueChange={(v) => field.onChange(Number(v))}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" aria-label="Allowed openings">
                   <SelectValue>
                     {(v) =>
                       OPENING_OPTS.find((o) => String(o.value) === v)?.label ??
@@ -252,47 +252,30 @@ function CreateForm({
         name="usePassphrase"
         render={({ field: toggle }) => (
           <div>
-            <div
-              role="checkbox"
-              aria-checked={toggle.value}
-              aria-labelledby="seal-passphrase-toggle-label"
-              aria-describedby="seal-passphrase-toggle-desc"
-              tabIndex={0}
-              data-on={toggle.value}
-              className="group flex items-start gap-3 p-3.5 border border-border rounded-lg bg-card cursor-default transition-colors hover:border-border-strong data-[on=true]:border-accent-line data-[on=true]:bg-accent-soft"
-              onClick={() => toggle.onChange(!toggle.value)}
-              onKeyDown={(e) => {
-                if (e.key === " " || e.key === "Enter") {
-                  e.preventDefault();
-                  toggle.onChange(!toggle.value);
-                }
-              }}
-            >
-              <div
+            <label className="group flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-card p-3.5 transition-colors hover:border-border-strong has-[:checked]:border-accent-line has-[:checked]:bg-accent-soft has-[:focus-visible]:border-ring has-[:focus-visible]:ring-3 has-[:focus-visible]:ring-ring/50">
+              <input
+                type="checkbox"
+                className="peer sr-only"
+                checked={toggle.value}
+                onChange={(e) => toggle.onChange(e.target.checked)}
+              />
+              <span
                 aria-hidden="true"
-                className="shrink-0 size-[18px] rounded-[5px] border border-border-strong bg-bg-elev grid place-items-center mt-px text-accent-fg group-data-[on=true]:bg-primary group-data-[on=true]:border-primary"
+                className="text-accent-fg border-border-strong bg-bg-elev peer-checked:bg-primary peer-checked:border-primary mt-px grid size-[18px] shrink-0 place-items-center rounded-[5px] border"
               >
-                {toggle.value && (
-                  <Check className="size-3" strokeWidth={3} />
-                )}
-              </div>
-              <div className="flex flex-1 flex-col gap-1">
-                <div
-                  id="seal-passphrase-toggle-label"
-                  className="text-foreground text-sm font-medium"
-                >
+                {toggle.value && <Check className="size-3" strokeWidth={3} />}
+              </span>
+              <span className="flex flex-1 flex-col gap-1">
+                <span className="text-foreground text-sm font-medium">
                   Add a passphrase
-                </div>
-                <div
-                  id="seal-passphrase-toggle-desc"
-                  className="text-fg-muted text-xs leading-relaxed"
-                >
+                </span>
+                <span className="text-fg-muted text-xs leading-relaxed">
                   The recipient will need both the link{" "}
                   <em className="text-foreground">and</em> a passphrase to
                   decrypt. Share them through different channels.
-                </div>
-              </div>
-            </div>
+                </span>
+              </span>
+            </label>
             {toggle.value && (
               <div className="mt-3 flex flex-col gap-2">
                 <div className={FIELD_LABEL}>

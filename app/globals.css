@@ -67,10 +67,10 @@
   --fg: oklch(0.185 0.006 85);
   --fg-muted: oklch(0.455 0.008 85);
   --fg-dim: oklch(0.625 0.008 85);
-  --accent: oklch(0.605 0.150 60);
-  --accent-soft: oklch(0.605 0.150 60 / 0.10);
-  --accent-line: oklch(0.605 0.150 60 / 0.36);
-  --accent-fg: oklch(0.985 0.005 60);
+  --accent: oklch(0.52 0.16 55);
+  --accent-soft: oklch(0.52 0.16 55 / 0.10);
+  --accent-line: oklch(0.52 0.16 55 / 0.38);
+  --accent-fg: oklch(0.985 0.005 55);
   --destructive: oklch(0.555 0.200 25);
   --destructive-soft: oklch(0.555 0.200 25 / 0.10);
   --destructive-line: oklch(0.555 0.200 25 / 0.38);
