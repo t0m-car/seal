@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 
 import { SealMark } from "@/components/seal-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/sonner";
 import { getSiteUrl } from "@/lib/site-url";
+
+import { Providers } from "./providers";
 
 import "./globals.css";
 
@@ -34,14 +35,6 @@ export const metadata: Metadata = {
 const BUILD_SHA = process.env.NEXT_PUBLIC_BUILD_SHA || "local";
 const VERSION = process.env.NEXT_PUBLIC_VERSION || "0.0.0";
 
-const THEME_SCRIPT = `
-  try {
-    var saved = localStorage.getItem('seal.theme');
-    var dark = saved === 'dark' || ((!saved || saved === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    if (dark) document.documentElement.classList.add('dark');
-  } catch (_) {}
-`;
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -54,20 +47,17 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <Script id="seal-theme" strategy="beforeInteractive" nonce={nonce}>
-          {THEME_SCRIPT}
-        </Script>
-      </head>
       <body className="bg-background text-foreground flex min-h-full flex-col font-sans">
-        <div className="app-shell flex flex-1 flex-col">
-          <div className="mx-auto flex w-full max-w-[720px] flex-1 flex-col gap-14 px-6 py-12 sm:py-16">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
+        <Providers nonce={nonce}>
+          <div className="app-shell flex flex-1 flex-col">
+            <div className="mx-auto flex w-full max-w-[720px] flex-1 flex-col gap-14 px-6 py-12 sm:py-16">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
           </div>
-        </div>
-        <Toaster richColors closeButton />
+          <Toaster richColors closeButton />
+        </Providers>
       </body>
     </html>
   );
