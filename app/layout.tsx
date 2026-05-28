@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { SealMark } from "@/components/seal-mark";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -58,6 +59,7 @@ export default async function RootLayout({
           </div>
           <Toaster richColors closeButton />
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
