@@ -8,13 +8,18 @@ function getBuildSha(): string {
     return process.env.VERCEL_GIT_COMMIT_SHA.slice(0, 7);
   }
   try {
-    return execSync("git rev-parse --short HEAD", { encoding: "utf8" }).trim();
+    return execSync("git rev-parse --short HEAD", {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
   } catch {
     return "local";
   }
 }
 
 const nextConfig: NextConfig = {
+  // Self-contained server in .next/standalone, used by the Dockerfile.
+  output: "standalone",
   env: {
     NEXT_PUBLIC_BUILD_SHA: getBuildSha(),
     NEXT_PUBLIC_VERSION: pkg.version,

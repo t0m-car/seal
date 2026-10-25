@@ -56,15 +56,17 @@ Open http://localhost:3000.
 
 ## Deploy
 
-Any Node 22+ host with a Postgres database. The repo includes `vercel.json`
-with a daily cron that purges expired records.
+Any Node 22+ host with a Postgres database. The `Dockerfile` builds a
+standalone image (`NEXT_PUBLIC_SITE_URL` is a build arg, the rest is runtime
+env). Schedule a daily call to `/api/cron/cleanup` with
+`Authorization: Bearer $CRON_SECRET` to purge expired records.
 
 Environment variables:
 
 | Name | Required | What |
 |---|---|---|
 | `DATABASE_URL` | yes | Postgres connection string |
-| `NEXT_PUBLIC_SITE_URL` | prod (non-Vercel) | Public site origin used for metadata. Vercel auto-injects `VERCEL_URL`. |
+| `NEXT_PUBLIC_SITE_URL` | prod | Public site origin used for metadata (build time). |
 | `CRON_SECRET` | prod | Bearer token guarding `/api/cron/cleanup` |
 
 ## Features
